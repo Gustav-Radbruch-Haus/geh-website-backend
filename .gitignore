@@ -147,3 +147,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# Ignore application.properties files with profile names
+application-*.properties
