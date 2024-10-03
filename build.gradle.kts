@@ -27,6 +27,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+	implementation("io.jsonwebtoken:jjwt-impl:0.11.2")
+	implementation("io.jsonwebtoken:jjwt-jackson:0.11.2") // or 'jjwt-gson' or 'jjwt-orgjson'
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
