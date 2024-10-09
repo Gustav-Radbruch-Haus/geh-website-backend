@@ -24,12 +24,10 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    private final CustomUserDetailsService customUserDetailsService;
 
     @Autowired
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, CustomUserDetailsService customUserDetailsService) {
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Bean
@@ -37,6 +35,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable) // Updated CSRF configuration
                 .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/api/registration/registerUser").permitAll()
+                        .requestMatchers("/api/auth/login").permitAll() // Allow access to registration endpoint
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess
@@ -59,10 +59,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return customUserDetailsService;
-    }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
