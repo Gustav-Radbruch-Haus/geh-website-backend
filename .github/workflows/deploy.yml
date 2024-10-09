@@ -32,8 +32,8 @@ jobs:
           ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
             cd /home/${{ secrets.REMOTE_USER }}/app
             # Optional: Add your application build commands here
-            # Example: ./gradlew build
+            ./gradlew build
 
             # Restarting the service
-            sudo systemctl restart myapp.service
+            # sudo systemctl restart myapp.service
             EOF
