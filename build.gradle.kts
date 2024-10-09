@@ -2,7 +2,6 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.3.4"
 	id("io.spring.dependency-management") version "1.1.6"
-	id("org.gradle.toolchains.foojay-resolver") version "0.8.0"
 }
 
 group = "org.grh"
