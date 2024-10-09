@@ -19,6 +19,10 @@ configurations {
 	}
 }
 
+springBoot {
+	mainClass.set("org.grh.website.WebsiteBackendApplication")
+}
+
 repositories {
 	mavenCentral()
 }
