@@ -33,7 +33,7 @@ jobs:
             cd /home/${{ secrets.REMOTE_USER }}/app
             # Optional: Add your application build commands here
             ./gradlew build
-            cp src/main/resources/application-dev.properties src/main/resources/application.properties 
+            cp ../application-dev.properties src/main/resources/application.properties 
             cp build/libs/grh-website-0.0.1-SNAPSHOT.jar my-app.jar
 
             # Restarting the service for all
