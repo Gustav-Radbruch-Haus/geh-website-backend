@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/registration/registerUser").permitAll()
                         .requestMatchers("/api/auth/login").permitAll() // Allow access to registration endpoint
+                        .requestMatchers("/api/public/**").permitAll() // Allow access to public endpoints
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess
