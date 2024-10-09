@@ -37,4 +37,4 @@ jobs:
             cp build/libs/grh-website-0.0.1-SNAPSHOT.jar my-app.jar
 
             # Restarting the service for all
-            # sudo systemctl restart myapp.service
+            sudo systemctl restart myapp.service
