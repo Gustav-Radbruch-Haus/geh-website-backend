@@ -1,1 +1,1 @@
-rootProject.name = "grh-website"
+rootProject.name = "grh-backend"
