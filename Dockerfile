@@ -1,7 +1,7 @@
 # Use a multi-stage build to keep the final image small
 
 # Stage 1: Build the application
-FROM gradle:7.6.0-jdk17 as builder
+FROM gradle:8.10.2-jdk17 as builder
 WORKDIR /home/gradle/project
 COPY . .
 RUN gradle build --no-daemon
