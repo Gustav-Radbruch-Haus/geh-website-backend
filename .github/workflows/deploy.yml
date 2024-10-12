@@ -9,6 +9,9 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
 
+    env:
+      TAG: ${{ github.sha }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -34,18 +37,15 @@ jobs:
           mkdir -p ~/.ssh/
           ssh-keyscan ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Copy Docker image to remote server
+      - name: Copy Docker image and compose file to remote server
         run: |
           scp grh-backend_${{ github.sha }}.tar ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.REMOTE_USER }}/grh-backend_${{ github.sha }}.tar
+          scp docker-compose.yml ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.REMOTE_USER }}/docker-compose.yml
 
       - name: Load and run Docker container on remote server
         run: |
           ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
             docker load -i /home/${{ secrets.REMOTE_USER }}/grh-backend_${{ github.sha }}.tar
-            docker stop grh-backend || true
-            docker rm grh-backend || true
-            docker run -d --name grh-backend -p 8080:8080 \
-              -v /home/${{ secrets.REMOTE_USER }}/application-dev.properties:/app/application.properties \
-              grh-backend:${{ github.sha }}
-            sudo systemctl restart grh-backend.service
-          EOF
+            export TAG=${{ github.sha }}
+            cd /home/${{ secrets.REMOTE_USER }}/
+            docker-compose up -d
