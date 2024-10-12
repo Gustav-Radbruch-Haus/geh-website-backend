@@ -44,6 +44,8 @@ jobs:
             docker load -i /home/${{ secrets.REMOTE_USER }}/grh-backend_${{ github.sha }}.tar
             docker stop grh-backend || true
             docker rm grh-backend || true
-            docker run -d --name grh-backend -p 8080:8080 grh-backend:${{ github.sha }}
+            docker run -d --name grh-backend -p 8080:8080 \
+              -v /home/${{ secrets.REMOTE_USER }}/application-dev.properties:/app/application.properties \
+              grh-backend:${{ github.sha }}
             sudo systemctl restart grh-backend.service
-          
+          EOF
