@@ -13,6 +13,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t grh-backend:${{ github.sha }} .
+
+      - name: Save Docker image to a file
+        run: |
+          docker save -o grh-backend_${{ github.sha }}.tar grh-backend:${{ github.sha }}
+
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.4
         with:
@@ -23,19 +34,16 @@ jobs:
           mkdir -p ~/.ssh/
           ssh-keyscan ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Copy files via SSH
+      - name: Copy Docker image to remote server
         run: |
-          scp -r ./* ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.REMOTE_USER }}/app/
+          scp grh-backend_${{ github.sha }}.tar ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.REMOTE_USER }}/grh-backend_${{ github.sha }}.tar
 
-      - name: Deploy application
+      - name: Load and run Docker container on remote server
         run: |
           ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
-            cd /home/${{ secrets.REMOTE_USER }}/app
-            # Optional: Add your application build commands here
-            cp ../application-dev.properties src/main/resources/application.properties
+            docker load -i /home/${{ secrets.REMOTE_USER }}/grh-backend_${{ github.sha }}.tar
+            docker stop grh-backend || true
+            docker rm grh-backend || true
+            docker run -d --name grh-backend -p 8080:8080 grh-backend:${{ github.sha }}
+            sudo systemctl restart grh-backend.service
           
-            ./gradlew build
-            cp build/libs/grh-website-0.0.1-SNAPSHOT.jar my-app.jar
-
-            # Restarting the service for all
-            sudo systemctl restart myapp.service
