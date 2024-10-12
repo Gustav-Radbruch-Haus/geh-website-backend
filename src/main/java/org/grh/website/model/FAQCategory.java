@@ -1,9 +1,7 @@
 // FAQCategory.java
 package org.grh.website.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +13,7 @@ import java.util.List;
 @Setter
 public class FAQCategory {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 2)

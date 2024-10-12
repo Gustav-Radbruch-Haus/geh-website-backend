@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/registration")
+@RequestMapping("${baseUrl}/registration")
 public class UserController {
 
     private final UserRegistrationService userRegistrationService;

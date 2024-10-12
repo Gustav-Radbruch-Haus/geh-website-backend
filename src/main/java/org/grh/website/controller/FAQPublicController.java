@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/public/faqs")
+@RequestMapping("${baseUrl}/public/faq")
 public class FAQPublicController {
 
     private final FAQService faqService;
