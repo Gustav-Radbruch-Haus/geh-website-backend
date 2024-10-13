@@ -16,6 +16,9 @@ public class FAQCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String identifier;
+
     @Column(nullable = false, length = 2)
     private String language;
 

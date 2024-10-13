@@ -128,4 +128,6 @@ databaseChangeLog:
             constraintName: FK_FAQ_ON_CATEGORY
             referencedColumnNames: id
             referencedTableName: faqcategory
+  - includeAll:
+      path: db/changelog/2024/10
 

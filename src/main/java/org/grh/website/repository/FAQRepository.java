@@ -10,6 +10,6 @@ import java.util.List;
 public interface FAQRepository extends JpaRepository<FAQ, Long> {
     List<FAQ> findByCategoryId(Long categoryId);
 
-    List<FAQ> findByCategoryIdAndLanguage(Long categoryId, String language);
+    List<FAQ> findByCategoryIdentifierAndLanguage(String categoryCommonName, String language);
 
 }

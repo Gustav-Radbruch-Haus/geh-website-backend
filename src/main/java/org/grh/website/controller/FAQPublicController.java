@@ -27,9 +27,9 @@ public class FAQPublicController {
         return ResponseEntity.ok(categories);
     }
 
-    @GetMapping("/categories/{language}/{categoryId}/faqs")
-    public ResponseEntity<List<FAQ>> getFAQsByCategory(@PathVariable Long categoryId, @PathVariable String language) {
-        List<FAQ> faqs = faqService.getFAQsByCategoryId(categoryId, language);
+    @GetMapping("/categories/{language}/{categoryName}/faqs")
+    public ResponseEntity<List<FAQ>> getFAQsByCategory(@PathVariable String categoryName, @PathVariable String language) {
+        List<FAQ> faqs = faqService.getFAQsByCategoryAndLanguage(categoryName, language);
         return ResponseEntity.ok(faqs);
     }
 }

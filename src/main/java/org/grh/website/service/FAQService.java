@@ -31,7 +31,7 @@ public class FAQService {
 
     public List<FAQCategory> getAllCategories(String language) { return faqCategoryRepository.findFAQCategoriesByLanguage(language); }
 
-    public List<FAQ> getFAQsByCategoryId(Long categoryId, String language) {
-        return faqRepository.findByCategoryIdAndLanguage(categoryId, language);
+    public List<FAQ> getFAQsByCategoryAndLanguage(String categoryCommonName, String language) {
+        return faqRepository.findByCategoryIdentifierAndLanguage(categoryCommonName, language);
     }
 }
