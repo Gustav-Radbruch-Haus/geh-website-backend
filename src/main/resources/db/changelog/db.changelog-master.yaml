@@ -1,0 +1,131 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1728854603805-1
+      author: pasca
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_angels
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: username
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: password
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: email
+                  type: VARCHAR(255)
+            tableName: angels
+  - changeSet:
+      id: 1728854603805-2
+      author: pasca
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_faq
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: language
+                  type: VARCHAR(2)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: question
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: answer
+                  type: VARCHAR(255)
+              - column:
+                  name: category_id
+                  type: BIGINT
+            tableName: faq
+  - changeSet:
+      id: 1728854603805-3
+      author: pasca
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_faqcategory
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: language
+                  type: VARCHAR(2)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: title
+                  type: VARCHAR(255)
+              - column:
+                  name: image
+                  type: VARCHAR(255)
+              - column:
+                  name: link
+                  type: VARCHAR(255)
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+            tableName: faqcategory
+  - changeSet:
+      id: 1728854603805-4
+      author: pasca
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: email
+            constraintName: uc_angels_email
+            tableName: angels
+  - changeSet:
+      id: 1728854603805-5
+      author: pasca
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: username
+            constraintName: uc_angels_username
+            tableName: angels
+  - changeSet:
+      id: 1728854603805-6
+      author: pasca
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: category_id
+            baseTableName: faq
+            constraintName: FK_FAQ_ON_CATEGORY
+            referencedColumnNames: id
+            referencedTableName: faqcategory
+
