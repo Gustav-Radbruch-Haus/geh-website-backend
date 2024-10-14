@@ -1,0 +1,47 @@
+name: Deploy to Ubuntu Server
+
+on:
+  push:
+    branches:
+      - testing
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run:  docker build -t grh-backend:latest-test .
+
+      - name: Save Docker image to a file
+        run: docker save -o grh-backend_${{ github.sha }}.tar grh-backend:latest-test
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add remote server to known hosts
+        run: |
+          mkdir -p ~/.ssh/
+          ssh-keyscan ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Copy Docker image and compose file to remote server
+        run: |
+          scp grh-backend_${{ github.sha }}.tar ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.REMOTE_USER }}/grh-backend_${{ github.sha }}.tar
+          # scp docker-compose.yml ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.REMOTE_USER }}/docker-compose.yml
+
+      - name: Load and run Docker container on remote server
+        run: |
+          ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
+            docker load -i /home/${{ secrets.REMOTE_USER }}/grh-backend_${{ github.sha }}.tar
+            cd /home/${{ secrets.REMOTE_USER }}/
+            docker compose stop app
+            docker compose rm -f app
+            docker compose up -d app

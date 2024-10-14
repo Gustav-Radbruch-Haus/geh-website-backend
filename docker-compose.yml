@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: god
+      POSTGRES_PASSWORD: 38r65ESP5mxc602XQoXZs1QEQFYGxnAb
+      POSTGRES_DB: hivemind
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    image: grh-backend:${TAG}
+    container_name: grh-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    volumes:
+      - /home/deploy/application-dev.properties:/app/application.properties
+
+volumes:
+  postgres-data:
