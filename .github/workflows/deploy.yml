@@ -43,4 +43,6 @@ jobs:
             docker load -i /home/${{ secrets.REMOTE_USER }}/grh-backend_${{ github.sha }}.tar
             export TAG=${{ github.sha }}
             cd /home/${{ secrets.REMOTE_USER }}/
-            docker compose up -d
+            docker compose stop grh-backend
+            docker compose rm -f grh-backend
+            docker compose up -d grh-backend
