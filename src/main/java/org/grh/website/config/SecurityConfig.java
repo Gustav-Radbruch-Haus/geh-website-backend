@@ -46,9 +46,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())// Updated CSRF configuration
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/registration/registerUser").permitAll()
+                        .requestMatchers("/api/registration/**").permitAll()
                         .requestMatchers("/api/auth/login").permitAll() // Allow access to registration endpoint
                         .requestMatchers("/api/public/**").permitAll() // Allow access to public endpoints
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll() // Allow access to swagger-ui
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess

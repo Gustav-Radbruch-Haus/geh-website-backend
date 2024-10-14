@@ -22,7 +22,7 @@ public class FAQController {
         this.faqCategoryRepository = faqCategoryRepository;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/question/create")
     public FAQ createFAQ(@RequestBody FAQ faq) {
         FAQCategory category = faqCategoryRepository.findById(faq.getCategory().getId())
                 .orElseThrow(() -> new RuntimeException("Category not found"));

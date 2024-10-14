@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -25,6 +26,15 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registration;
+
+    private boolean active;
+
+    private boolean locked;
+
+    private String confirmationToken;
+
     // Additional fields if needed
     // private String firstName;
     // private String lastName;
@@ -43,5 +53,10 @@ public class User {
     @Override
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.registration = new Date();
     }
 }

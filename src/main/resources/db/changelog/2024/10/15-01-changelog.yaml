@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1728944792217-1
+      author: pasca
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+              - column:
+                  name: confirmation_token
+                  type: VARCHAR(255)
+              - column:
+                  name: locked
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+              - column:
+                  name: registration
+                  type: DATETIME
+            tableName: angels
+  - changeSet:
+      id: 1728944792217-2
+      author: pasca
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: active
+            tableName: angels
+  - changeSet:
+      id: 1728944792217-5
+      author: pasca
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: locked
+            tableName: angels
+
