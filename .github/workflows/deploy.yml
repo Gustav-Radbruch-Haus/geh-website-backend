@@ -9,9 +9,6 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
 
-    env:
-      TAG: ${{ github.sha }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -20,12 +17,10 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Build Docker image
-        run: |
-          docker build -t grh-backend:${{ github.sha }} .
+        run:  docker build -t grh-backend:${{ github.sha }} .
 
       - name: Save Docker image to a file
-        run: |
-          docker save -o grh-backend_${{ github.sha }}.tar grh-backend:${{ github.sha }}
+        run: docker save -o grh-backend_${{ github.sha }}.tar grh-backend:${{ github.sha }}
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.4
@@ -40,7 +35,7 @@ jobs:
       - name: Copy Docker image and compose file to remote server
         run: |
           scp grh-backend_${{ github.sha }}.tar ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.REMOTE_USER }}/grh-backend_${{ github.sha }}.tar
-          scp docker-compose.yml ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.REMOTE_USER }}/docker-compose.yml
+          # scp docker-compose.yml ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.REMOTE_USER }}/docker-compose.yml
 
       - name: Load and run Docker container on remote server
         run: |
