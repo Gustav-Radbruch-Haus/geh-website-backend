@@ -20,7 +20,7 @@ jobs:
         run:  docker build -t grh-backend:latest-test .
 
       - name: Save Docker image to a file
-        run: docker save -o grh-backend_${{ github.sha }}.tar grh-backend:${{ github.sha }}
+        run: docker save -o grh-backend_${{ github.sha }}.tar grh-backend:latest-test
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.4
